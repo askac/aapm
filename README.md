@@ -17,4 +17,5 @@ There are several example videos could be found on Youtube to help you to done a
 
 I will upload a builded apk later.
 You ALSO HAVE TO install the appropriate aa-vex-* .apk for your car brand (which means initially only VAG cars are supported).
-Please use google to find the support apk.
+You can get it in following URL:
+https://github.com/martoreto/aauto-vex-vag/releases
