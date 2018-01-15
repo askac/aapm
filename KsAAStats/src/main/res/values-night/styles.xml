@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme.Car.Speedometer">
+        <item name="sv_indicatorColor">#90FF0000</item>
+        <item name="sv_indicatorWidth">4dp</item>
+        <item name="sv_lowSpeedColor">#7f7f7f</item>
+        <item name="sv_highSpeedColor">@color/car_accent</item>
+        <item name="sv_mediumSpeedColor">#7f7f7f</item>
+
+        <item name="sv_speedTextColor">#EfEfEf</item>
+        <item name="sv_speedometerWidth">16dp</item>
+        <item name="sv_textColor">#CfCfCf</item>
+        <item name="sv_speedTextSize">48sp</item>
+        <item name="sv_unitTextSize">16sp</item>
+
+        <item name="sv_unitTextColor">#ff5000</item>
+        <item name="sv_unitUnderSpeedText">true</item>
+        <item name="sv_withTremble">false</item>
+        <item name="sv_centerCircleColor">@android:color/transparent</item>
+        <item name="sv_backgroundCircleColor">#a0a0a0</item>
+    </style>
+</resources>

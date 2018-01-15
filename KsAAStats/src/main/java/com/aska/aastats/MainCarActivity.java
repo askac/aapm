@@ -2,10 +2,12 @@ package com.aska.aastats;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.google.android.apps.auto.sdk.CarActivity;
 import com.google.android.apps.auto.sdk.CarUiController;
 import com.google.android.apps.auto.sdk.MenuController;
+import com.google.android.apps.auto.sdk.SearchController;
 import com.google.android.apps.auto.sdk.StatusBarController;
 
 public class MainCarActivity extends CarActivity {

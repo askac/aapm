@@ -12,7 +12,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,7 +30,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class DashboardFragment extends CarFragment {
+public class DashboardFragment extends CarFragment implements OnClickListener {
     private final String TAG = "DashboardFragment";
 
     private CarStatsClient mStatsClient;
@@ -49,6 +51,8 @@ public class DashboardFragment extends CarFragment {
     private int mAnimationDuration;
     private WheelStateMonitor.WheelState mWheelState;
 
+    private Button mButtonFn;
+
     public static final float FULL_BRAKE_PRESSURE = 100.0f;
 
     private Map<String, Object> mLastMeasurements = new HashMap<>();
@@ -56,6 +60,22 @@ public class DashboardFragment extends CarFragment {
 
     public DashboardFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.v(TAG, "Click Function key!");
+        int target = 0;
+        if(mOutputPower.getSpeed() == mOutputPower.getMinSpeed()) {
+            target = 100;
+        }
+        else
+        {
+            target = 0;
+        }
+        mOutputPower.speedPercentTo(target);
+        mOutputTorque.speedPercentTo(target);
+        mChargingPressure.speedPercentTo(target);
     }
 
     @Override
@@ -109,6 +129,9 @@ public class DashboardFragment extends CarFragment {
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        mButtonFn = rootView.findViewById(R.id.buttonFn);
+        mButtonFn.setOnClickListener(this);
 
         mOutputPower = rootView.findViewById(R.id.output_power_view);
         mChargingPressure = rootView.findViewById(R.id.charging_pressure_view);

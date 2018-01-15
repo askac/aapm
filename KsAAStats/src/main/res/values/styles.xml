@@ -43,7 +43,7 @@
         <item name="sv_mediumSpeedColor">@color/car_primary</item>
         <item name="sv_mediumSpeedPercent">85</item>
         <item name="sv_speedTextColor">@color/accent</item>
-        <item name="sv_speedTextSize">42sp</item>
+        <item name="sv_speedTextSize">48sp</item>
         <item name="sv_speedometerWidth">16dp</item>
         <item name="sv_textColor">@color/car_primary</item>
         <item name="sv_textSize">12sp</item>

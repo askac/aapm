@@ -2,8 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_marginBottom="0dp"
     android:layout_marginLeft="4dp"
@@ -63,7 +63,7 @@
             app:sv_speedTextFormat="INTEGER"
             app:sv_speedTextPosition="CENTER"
             app:sv_startDegree="45"
-            app:sv_tickNumber="5"
+            app:sv_tickNumber="6"
             app:sv_tickPadding="15dp"
             app:sv_unit="Nm" />
 
@@ -76,5 +76,7 @@
             android:tint="@color/car_primary"
             tools:ignore="ContentDescription"
             tools:visibility="gone" />
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

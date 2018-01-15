@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/AppTheme.Car"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:showIn="@layout/preview_dashboard">
@@ -91,6 +92,7 @@
                     tools:ignore="HardcodedText" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:id="@+id/gearbox_container"
             style="@style/CardView"
@@ -123,12 +125,26 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <Button
+                    android:id="@+id/buttonFn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:text="Fn"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="#7777ff"
+                    android:textColor="#ffffee"
+                    android:textAllCaps="false"
+                    tools:ignore="HardcodedText" />
+
                 <TextView
                     android:id="@+id/gear_P"
                     style="@style/AppTheme.Car.Gear"
                     android:alpha="0.3"
                     android:text="P"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/buttonFn"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="HardcodedText" />
 
@@ -216,6 +232,7 @@
             </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.CardView>
+
         <include
             android:id="@+id/gauges"
             layout="@layout/layout_dashboard_gauges"
@@ -225,8 +242,6 @@
 
             app:layout_constraintBottom_toTopOf="@id/gearbox_container"
             app:layout_constraintTop_toBottomOf="@id/extra_card" />
-
-
 
 
     </LinearLayout>

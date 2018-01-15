@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Ka\'s AA Stats</string>
-    <string name="car_service_name">AA Stats</string>
+    <string name="car_service_name">Ka\'s AA Stats</string>
 
-    <string name="dashboard_title">性能監控</string>
+    <string name="dashboard_title">PerfMon.</string>
 
     <string name="temp_format">%.0f℃</string>
     <string name="volt_format">%.1f V</string>
