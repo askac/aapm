@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_display_setting_title">
+        <CheckBoxPreference
+            android:key="autoDayNight"
+            android:title="@string/pref_autoDayNight_title"
+            android:summary="@string/pref_autoDayNight_summary"
+            android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="defautDayNight"
+            android:title="@string/pref_defaultDayNight_title"
+            android:summary="@string/pref_defaultDayNight_summary"
+            android:defaultValue="false"/>
 
+        <CheckBoxPreference
+            android:key="showPhoneRelatedInfo"
+            android:title="@string/pref_display_phone_status"
+            android:summary="@string/pref_display_phone_status_summary"
+            android:defaultValue="false"/>
+        <CheckBoxPreference
+            android:key="showVoiceCmdButton"
+            android:title="@string/pref_display_mic"
+            android:summary="@string/pref_display_mic_summary"
+            android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="showCurrentTime"
+            android:title="@string/pref_display_time"
+            android:summary="@string/pref_display_time_summary"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_notifications_category_title">
         <CheckBoxPreference
             android:key="oilTempMonitoringActive"

@@ -34,5 +34,16 @@
     <string name="pref_stats_logging_not_available">Logging not available: %1$s</string>
     <string name="pref_providers_category_title">Telemetry providers</string>
     <string name="pref_list_providers_title">List providers</string>
+    <string name="pref_display_setting_title">Display Setting</string>
+    <string name="pref_display_phone_status">Display phone status</string>
+    <string name="pref_display_phone_status_summary">Display battery level and connectivity</string>
     <string name="providers">Telemetry providers</string>
+    <string name="pref_display_mic">Voice Command</string>
+    <string name="pref_display_mic_summary">Show voice command button</string>
+    <string name="pref_display_time">Clock</string>
+    <string name="pref_display_time_summary">Show current time</string>
+    <string name="pref_autoDayNight_title">Auto Day/Night Mode style UI</string>
+    <string name="pref_autoDayNight_summary">Enable auto Day/Night mode. Default day/night setting would not take effect if this option is checked.</string>
+    <string name="pref_defaultDayNight_title">Day Mode Style UI</string>
+    <string name="pref_defaultDayNight_summary">Use Day Mode style UI as default. This option would be ignored if Auto mode was enable.</string>
 </resources>

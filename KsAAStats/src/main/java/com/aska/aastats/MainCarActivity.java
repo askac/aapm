@@ -20,7 +20,6 @@ public class MainCarActivity extends CarActivity {
         setContentView(R.layout.activity_car_main);
 
         CarUiController carUiController = getCarUiController();
-        carUiController.getStatusBarController().showTitle();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         CarFragment fragment = new DashboardFragment();

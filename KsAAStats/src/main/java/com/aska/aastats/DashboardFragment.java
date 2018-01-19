@@ -4,10 +4,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,13 +68,12 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
     public void onClick(View v) {
         Log.v(TAG, "Click Function key!");
         int target = 0;
-        if(mOutputPower.getSpeed() == mOutputPower.getMinSpeed()) {
+        if (mOutputPower.getSpeed() == mOutputPower.getMinSpeed()) {
             target = 100;
-        }
-        else
-        {
+        } else {
             target = 0;
         }
+        ;
         mOutputPower.speedPercentTo(target);
         mOutputTorque.speedPercentTo(target);
         mChargingPressure.speedPercentTo(target);
@@ -80,13 +81,37 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
 
     @Override
     protected void setupStatusBar(StatusBarController sc) {
-        sc.setDayNightStyle(DayNightStyle.AUTO);
-        sc.showAppHeader();
-        sc.showBatteryLevel();
-        sc.showClock();
-        sc.showConnectivityLevel();
-        sc.showMicButton();
-        sc.showTitle();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        if (true == sharedPreferences.getBoolean("autoDayNight", true)) {
+            sc.setDayNightStyle(DayNightStyle.AUTO);
+            Log.v(TAG, "DayNightStyle.AUTO");
+        } else {
+            if (true == sharedPreferences.getBoolean("defautDayNight", false)) {
+                sc.setDayNightStyle(DayNightStyle.FORCE_DAY);
+                Log.v(TAG, "DayNightStyle.FORCE_DAY");
+            } else {
+                sc.setDayNightStyle(DayNightStyle.FORCE_NIGHT);
+                Log.v(TAG, "DayNightStyle.FORCE_NIGHT");
+            }
+        }
+        sc.hideAppHeader();
+        if (false == sharedPreferences.getBoolean("showPhoneRelatedInfo", false)) {
+            sc.hideBatteryLevel();
+            sc.hideConnectivityLevel();
+        } else {
+            sc.showBatteryLevel();
+            sc.showConnectivityLevel();
+        }
+        if (false == sharedPreferences.getBoolean("showCurrentTime", true))
+            sc.hideClock();
+        else
+            sc.showClock();
+        if (false == sharedPreferences.getBoolean("showVoiceCmdButton", true))
+            sc.hideMicButton();
+        else
+            sc.showMicButton();
+        sc.hideTitle();
         sc.setTitle(getContext().getString(R.string.dashboard_title));
     }
 
