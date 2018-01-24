@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -27,6 +28,8 @@ import com.google.android.apps.auto.sdk.DayNightStyle;
 import com.google.android.apps.auto.sdk.StatusBarController;
 import com.google.common.collect.ImmutableMap;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -49,11 +52,16 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
     private TextView mOilTemp;
     private TextView mGearboxTemp;
     private TextView mBatteryVoltage;
+
+    // TEST
+    private TextView mDebugText;
+
     private Float mLastSpeedKmh;
     private int mAnimationDuration;
     private WheelStateMonitor.WheelState mWheelState;
 
     private Button mButtonFn;
+    private int mFnMode = 0;
 
     public static final float FULL_BRAKE_PRESSURE = 100.0f;
 
@@ -73,10 +81,29 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         } else {
             target = 0;
         }
-        ;
         mOutputPower.speedPercentTo(target);
         mOutputTorque.speedPercentTo(target);
         mChargingPressure.speedPercentTo(target);
+
+        try {
+            File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "AAPM.txt");
+            if (false == f.exists())
+                f.createNewFile();
+            FileWriter fileWriter = new FileWriter(f);
+            fileWriter.append("New Record\r\n");
+            if (mLastMeasurements.size() > 0) {
+                fileWriter.append(mLastMeasurements.toString());
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        if (mFnMode < 10) {
+            mFnMode++;
+        } else {
+            mFnMode = 0;
+        }
     }
 
     @Override
@@ -166,6 +193,8 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         mOilTemp = rootView.findViewById(R.id.oil_temp_view);
         mGearboxTemp = rootView.findViewById(R.id.gearbox_temp_view);
         mBatteryVoltage = rootView.findViewById(R.id.battery_voltage_view);
+        //TEST
+        mDebugText = rootView.findViewById(R.id.debugText);
 
         mGearViews = ImmutableMap.<String, View>builder()
                 .put("Park", rootView.findViewById(R.id.gear_P))
@@ -330,6 +359,40 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         } else {
             mBatteryVoltage.setText(String.format(Locale.US,
                     getContext().getText(R.string.volt_format).toString(), batteryVoltage));
+        }
+
+        // TEST
+        switch (mFnMode) {
+            case 0:
+            default:
+                String debugText = "???";
+                try {
+                    debugText = (String) mLastMeasurements.get("gearTransmissionMode").toString();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+                if (null == debugText)
+                    mDebugText.setText("???");
+                else
+                    mDebugText.setText(debugText);
+                break;
+            case 1:
+                if(true == (boolean) mLastMeasurements.get("driverIsBraking"))
+                    mDebugText.setText("BRK!");
+                else
+                    mDebugText.setText("---");
+                break;
+            case 2:
+                try {
+                    Float lastSpeed = (Float) mLastMeasurements.get("vehicleSpeed");
+                    String speedUnit = (String) mLastMeasurements.get("vehicleSpeed.unit");
+                    if (lastSpeed != null && speedUnit != null)
+                        mDebugText.setText((new StringBuilder()).append(lastSpeed).append(" ").append(speedUnit));
+                }catch (Exception e)
+                {
+
+                }
+                break;
         }
 
         // Last speed
