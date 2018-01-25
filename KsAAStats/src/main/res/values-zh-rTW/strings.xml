@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ka\'s AA Stats</string>
+    <string name="text_vin">車身號碼:</string>
+    <string name="pref_autoDayNight_title">自動切換日夜介面</string>
+    <string name="pref_display_time">時間</string>
+    <string name="pref_display_mic">語音指令</string>
+    <string name="pref_defaultDayNight_title">日間介面</string>
+    <string name="text_nav">地理位置:</string>
+</resources>

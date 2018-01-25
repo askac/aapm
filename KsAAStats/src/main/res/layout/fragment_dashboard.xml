@@ -90,6 +90,19 @@
                     android:textAppearance="@style/CarBody2"
                     android:textSize="20sp"
                     tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/debugText"
+                    android:layout_width="36dp"
+                    android:layout_height="32dp"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="---"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/CarBody2"
+                    android:textSize="20sp"
+                    android:visibility="invisible"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -129,13 +142,13 @@
                     android:id="@+id/buttonFn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
+                    android:background="#7777ff"
                     android:text="Fn"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffee"
+                    android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:background="#7777ff"
-                    android:textColor="#ffffee"
-                    android:textAllCaps="false"
                     tools:ignore="HardcodedText" />
 
                 <TextView
@@ -239,10 +252,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
-
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/gearbox_container"
             app:layout_constraintTop_toBottomOf="@id/extra_card" />
-
+        <include
+            android:id="@+id/carInfo"
+            layout="@layout/layout_car_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/gearbox_container"
+            app:layout_constraintTop_toBottomOf="@id/extra_card" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

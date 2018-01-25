@@ -46,4 +46,6 @@
     <string name="pref_autoDayNight_summary">Enable auto Day/Night mode. Default day/night setting would not take effect if this option is checked.</string>
     <string name="pref_defaultDayNight_title">Day Mode Style UI</string>
     <string name="pref_defaultDayNight_summary">Use Day Mode style UI as default. This option would be ignored if Auto mode was enable.</string>
+    <string name="text_vin">VIN:</string>
+    <string name="text_nav">GeoPosition:</string>
 </resources>

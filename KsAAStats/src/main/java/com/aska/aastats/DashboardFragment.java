@@ -55,6 +55,8 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
 
     // TEST
     private TextView mDebugText;
+    private View mGauges;
+    private View mCarInfo;
 
     private Float mLastSpeedKmh;
     private int mAnimationDuration;
@@ -85,24 +87,19 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         mOutputTorque.speedPercentTo(target);
         mChargingPressure.speedPercentTo(target);
 
-        try {
-            File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "AAPM.txt");
-            if (false == f.exists())
-                f.createNewFile();
-            FileWriter fileWriter = new FileWriter(f);
-            fileWriter.append("New Record\r\n");
-            if (mLastMeasurements.size() > 0) {
-                fileWriter.append(mLastMeasurements.toString());
-            }
-            fileWriter.close();
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
-
         if (mFnMode < 10) {
             mFnMode++;
         } else {
             mFnMode = 0;
+        }
+        if(1 == (mFnMode % 2)) {
+            mGauges.setVisibility(View.GONE);
+            mCarInfo.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mCarInfo.setVisibility(View.GONE);
+            mGauges.setVisibility(View.VISIBLE);
         }
     }
 
@@ -195,6 +192,8 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         mBatteryVoltage = rootView.findViewById(R.id.battery_voltage_view);
         //TEST
         mDebugText = rootView.findViewById(R.id.debugText);
+        mGauges = rootView.findViewById(R.id.gauges);
+        mCarInfo = rootView.findViewById(R.id.carInfo);
 
         mGearViews = ImmutableMap.<String, View>builder()
                 .put("Park", rootView.findViewById(R.id.gear_P))
@@ -362,38 +361,72 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         }
 
         // TEST
-        switch (mFnMode) {
-            case 0:
-            default:
-                String debugText = "???";
-                try {
-                    debugText = (String) mLastMeasurements.get("gearTransmissionMode").toString();
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
-                if (null == debugText)
-                    mDebugText.setText("???");
-                else
-                    mDebugText.setText(debugText);
-                break;
-            case 1:
-                if(true == (boolean) mLastMeasurements.get("driverIsBraking"))
-                    mDebugText.setText("BRK!");
-                else
-                    mDebugText.setText("---");
-                break;
-            case 2:
-                try {
-                    Float lastSpeed = (Float) mLastMeasurements.get("vehicleSpeed");
-                    String speedUnit = (String) mLastMeasurements.get("vehicleSpeed.unit");
-                    if (lastSpeed != null && speedUnit != null)
-                        mDebugText.setText((new StringBuilder()).append(lastSpeed).append(" ").append(speedUnit));
-                }catch (Exception e)
-                {
-
-                }
-                break;
+        String vin = (String) mLastMeasurements.get("vehicleIdenticationNumber_VIN");
+        Float engineDisplacement = (Float) mLastMeasurements.get("combustionEngineDisplacement");
+        String engineInjection = (String) mLastMeasurements.get("combustionEngineInjection_type");
+        String engineType = (String) mLastMeasurements.get("engineTypes_primaryEngine");
+        Float NavGeoLatitude = (Float) mLastMeasurements.get("Nav_GeoPosition_Latitude");
+        Float NavGeoLongitude = (Float) mLastMeasurements.get("Nav_GeoPosition_Longitude");
+        printTextView(vin, "N/A", (TextView) mCarInfo.findViewById(R.id.textVIN));
+        TextView tt = mCarInfo.findViewById(R.id.engineInfoText);
+        if(null != engineDisplacement && null != engineInjection && null != engineType)
+        {
+            tt.setText(String.format("%fL %s %s", engineDisplacement, engineInjection, engineType));
         }
+        else
+        {
+            tt.setText("---");
+        }
+        TextView tt1 = mCarInfo.findViewById(R.id.textGeoPos);
+        if(null != NavGeoLatitude && null != NavGeoLongitude)
+        {
+            tt1.setText(String.format("%f, %f", NavGeoLatitude, NavGeoLongitude));
+        }
+        else
+        {
+            tt1.setText(String.format("---, ---", NavGeoLatitude, NavGeoLongitude));
+        }
+        Log.v(TAG, "FnMode is " + mFnMode);
+//        switch (mFnMode) {
+//            case 0:
+//            default:
+//                String debugText = "???";
+//                try {
+//                    debugText = (String) mLastMeasurements.get("gearTransmissionMode");
+//                } catch (Exception e) {
+//                    Log.e(TAG, e.getMessage());
+//                }
+//                if (null == debugText)
+//                    mDebugText.setText("???");
+//                else
+//                    mDebugText.setText(debugText);
+//                break;
+//            case 1:
+//                if(true == (boolean) mLastMeasurements.get("driverIsBraking"))
+//                    mDebugText.setText("BRK!");
+//                else
+//                    mDebugText.setText("---");
+//                break;
+//            case 2:
+//                try {
+//                    Float lastSpeed = (Float) mLastMeasurements.get("vehicleSpeed");
+//                    String speedUnit = (String) mLastMeasurements.get("vehicleSpeed.unit");
+//                    if (lastSpeed != null && speedUnit != null)
+//                        mDebugText.setText((new StringBuilder()).append(lastSpeed).append(" ").append(speedUnit));
+//                }catch (Exception e)
+//                {
+//
+//                }
+//                break;
+//            case 3:
+//                mGauges.setVisibility(View.INVISIBLE);
+//                mCarInfo.setVisibility(View.VISIBLE);
+//                break;
+//            case 4:
+//                mCarInfo.setVisibility(View.INVISIBLE);
+//                mGauges.setVisibility(View.VISIBLE);
+//                break;
+//        }
 
         // Last speed
 
@@ -428,6 +461,16 @@ public class DashboardFragment extends CarFragment implements OnClickListener {
         animateAlpha(mChargingPressure, mWheelState != WheelStateMonitor.WheelState.WHEEL_DRIVING
                 && mWheelState != WheelStateMonitor.WheelState.WHEEL_UNKNOWN ? 0.0f :
                 (currentChargingPressure == null ? DISABLED_ALPHA : 1.0f));
+    }
+
+    private void printTextView(String s, String na, TextView tt) {
+        if(null != s) {
+            tt.setText(s);
+        }
+        else
+        {
+            tt.setText(na);
+        }
     }
 
     private void animateAlpha(View view, float alpha) {
